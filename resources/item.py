@@ -13,7 +13,7 @@ class Item(Resource):
     parser.add_argument('store_id',
         type=int,
         required=True,
-        help="Every item needs a store_id."
+        help="Every item needs a store id."
     )
 
     @jwt_required()
@@ -29,12 +29,12 @@ class Item(Resource):
 
         data = Item.parser.parse_args()
 
-        item = ItemModel(name, data['price'], data['store_id'])
+        item = ItemModel(name, **data)
 
-  #      try:
-        item.save_to_db()
- #       except:
-#            return {"message": "An error occurred inserting the item."}, 500
+        try:
+            item.save_to_db()
+        except:
+            return {"message": "An error occurred inserting the item."}, 500
 
         return item.json(), 201
 
@@ -50,15 +50,16 @@ class Item(Resource):
 
         item = ItemModel.find_by_name(name)
 
-        if item:
-            item.price = data['price']
+        if item is None:
+            item = ItemModel(name, **data)
         else:
-            item = ItemModel(name, data['price'])
+            item.price = data['price']
 
         item.save_to_db()
 
         return item.json()
 
+
 class ItemList(Resource):
     def get(self):
-        return {'items': list(map(lambda x: x.json(), ItemModel.query.all()))}
+        return {'items': [x.json() for x in ItemModel.query.all()]}
