@@ -17,12 +17,12 @@ api = Api(app)
 
 jwt = JWT(app, authenticate, identity)  #/auth
 
-api.add_resource(Store, '/store/<string:name>')
-api.add_resource(Item, '/item/<string:name>')
+api.add_resource(Store, '/sensor/<string:name>')
+api.add_resource(Item, '/quake/<string:name>')
 
-api.add_resource(ItemList, '/items')
+api.add_resource(ItemList, '/quakes')
 api.add_resource(UserRegister, '/register')
-api.add_resource(StoreList, '/stores')
+api.add_resource(StoreList, '/sensors')
 if __name__ == '__main__':
     from db import db
     db.init_app(app)
