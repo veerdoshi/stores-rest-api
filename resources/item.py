@@ -31,10 +31,10 @@ class Item(Resource):
 
         item = ItemModel(name, data['price'], data['store_id'])
 
-        try:
-            item.save_to_db()
-        except:
-            return {"message": "An error occurred inserting the item."}, 500
+  #      try:
+        item.save_to_db()
+ #       except:
+#            return {"message": "An error occurred inserting the item."}, 500
 
         return item.json(), 201
 
