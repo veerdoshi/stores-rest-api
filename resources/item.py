@@ -45,19 +45,19 @@ class Item(Resource):
 
         return {'message': 'Item deleted'}
 
-    def put(self, name):
-        data = Item.parser.parse_args()
-
-        item = ItemModel.find_by_name(name)
-
-        if item is None:
-            item = ItemModel(name, **data)
-        else:
-            item.price = data['price']
-
-        item.save_to_db()
-
-        return item.json()
+#    def put(self, name):
+ #       data = Item.parser.parse_args()
+#
+ #       item = ItemModel.find_by_name(name)
+#
+ #       if item is None:
+  #          item = ItemModel(name, **data)
+   #     else:
+    #        item.price = data['price']
+#
+ #       item.save_to_db()
+#
+ #       return item.json()
 
 
 class ItemList(Resource):
