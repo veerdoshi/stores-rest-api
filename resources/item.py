@@ -13,7 +13,7 @@ class Item(Resource):
     parser.add_argument('store_id',
         type=int,
         required=True,
-        help='Every item needs a store id.'
+        help='Every quake needs a sensor id.'
     )
 
     @jwt_required()
@@ -21,12 +21,12 @@ class Item(Resource):
         item = ItemModel.find_by_name(name)
         if item:
             return item.json()
-        return {'message': 'Item not found'}, 404
+        return {'message': 'Quake not found'}, 404
 
 
     def post(self, name):
         if ItemModel.find_by_name(name):
-            return {'message': "an item with name '{}' already exists.".format(name)}, 400
+            return {'message': "a quake with name '{}' already exists.".format(name)}, 400
 
         data = Item.parser.parse_args()
 
@@ -34,7 +34,7 @@ class Item(Resource):
         try:
             item.save_to_db()
         except:
-            return {"message": "An error occurred while inserting the item"}, 500
+            return {"message": "An error occurred while inserting the quake"}, 500
 
         return item.json(), 201
 
@@ -43,7 +43,7 @@ class Item(Resource):
         if item:
             item.delete_from_db()
 
-        return{'message': 'Item deleted'}
+        return{'message': 'Quake deleted'}
     def put(self, name):
         data = Item.parser.parse_args()
 
@@ -61,4 +61,4 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
-         return {'items': [item.json() for item in ItemModel.query.all()]}
+         return {'quakes': [item.json() for item in ItemModel.query.all()]}
