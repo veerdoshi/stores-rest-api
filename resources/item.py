@@ -13,7 +13,7 @@ class Item(Resource):
     parser.add_argument('store_id',
         type=int,
         required=True,
-        help='Every quake needs a sensor id.'
+        help='Every item needs a store id.'
     )
 
     @jwt_required()
@@ -21,12 +21,12 @@ class Item(Resource):
         item = ItemModel.find_by_name(name)
         if item:
             return item.json()
-        return {'message': 'Quake not found'}, 404
+        return {'message': 'Item not found'}, 404
 
 
     def post(self, name):
         if ItemModel.find_by_name(name):
-            return {'message': "a quake with name '{}' already exists.".format(name)}, 400
+            return {'message': "an item with name '{}' already exists.".format(name)}, 400
 
         data = Item.parser.parse_args()
 
@@ -43,7 +43,7 @@ class Item(Resource):
         if item:
             item.delete_from_db()
 
-        return{'message': 'Quake deleted'}
+        return{'message': 'Item deleted'}
     def put(self, name):
         data = Item.parser.parse_args()
 
