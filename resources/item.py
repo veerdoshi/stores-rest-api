@@ -31,10 +31,10 @@ class Item(Resource):
         data = Item.parser.parse_args()
 
         item = ItemModel(name, **data)
-#        try:
-        item.save_to_db()
-#        except:
-#            return {"message": "An error occurred while inserting the item"}, 500
+        try:
+            item.save_to_db()
+        except:
+            return {"message": "An error occurred while inserting the item"}, 500
 
         return item.json(), 201
 
@@ -53,6 +53,7 @@ class Item(Resource):
             item = ItemModel(name, data['price'], data['store_id'])
         else:
             item.price = data['price']
+            item.store_id = data['store_id']
 
         item.save_to_db()
         return item.json()
